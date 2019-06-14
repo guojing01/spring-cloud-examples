@@ -1,4 +1,4 @@
-package com.neo.controller;
+package com.neo.command;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @Description:重载HystrixCommand 的getFallback方法实现逻辑
  * @Date: 2019/5/23
  */
+
 public class HelloWorldFallbackCommand extends HystrixCommand<String> {
     private final String name;
     public HelloWorldFallbackCommand(String name) {
@@ -28,7 +29,7 @@ public class HelloWorldFallbackCommand extends HystrixCommand<String> {
     @Override
     protected String run() throws Exception {
         //sleep 1 秒,调用会超时
-        TimeUnit.MILLISECONDS.sleep(2000);
+//        TimeUnit.MILLISECONDS.sleep(2000);
         return "Hello " + name +" thread:" + Thread.currentThread().getName();
     }
     public static void main(String[] args) throws Exception{

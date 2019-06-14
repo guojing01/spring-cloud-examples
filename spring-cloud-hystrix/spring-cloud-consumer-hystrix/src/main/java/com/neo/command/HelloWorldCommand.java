@@ -1,4 +1,4 @@
-package com.neo.controller;
+package com.neo.command;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @Description:
  * @Date: 2019/5/23
  */
+
 public class HelloWorldCommand extends HystrixCommand<String> {
     private final String name;
     public HelloWorldCommand(String name) {
@@ -27,21 +28,22 @@ public class HelloWorldCommand extends HystrixCommand<String> {
         return "Hello " + name +" thread:" + Thread.currentThread().getName();
     }
 
-    //调用实例
+    //同步异步调用实例
     public static void main(String[] args) throws Exception{
         /**======================================使用命令模式封装依赖逻辑===================================================*/
         //每个Command对象只能调用一次,不可以重复调用,
         //重复调用对应异常信息:This instance can only be executed once. Please instantiate a new instance.
         HelloWorldCommand helloWorldCommand = new HelloWorldCommand("Synchronous-hystrix");
-        //使用execute()同步调用代码,效果等同于:helloWorldCommand.queue().get();
-        String result = helloWorldCommand.execute();
+        String result = helloWorldCommand.execute();//使用execute()同步调用代码,效果等同于:helloWorldCommand.queue().get();
         System.out.println("result=" + result);
 
+
+        /**
+         * 异步调用
+         */
         helloWorldCommand = new HelloWorldCommand("Asynchronous-hystrix");
-        //异步调用,可自由控制获取结果时机,
         Future<String> future = helloWorldCommand.queue();
-        //get操作不能超过command定义的超时时间,默认:1秒
-        result = future.get(100, TimeUnit.MILLISECONDS);
+        result = future.get(100, TimeUnit.MILLISECONDS); //get操作不能超过command定义的超时时间,默认:1秒
         System.out.println("result=" + result);
         System.out.println("mainThread=" + Thread.currentThread().getName());
 
@@ -61,6 +63,8 @@ public class HelloWorldCommand extends HystrixCommand<String> {
             public void call(String result) {
                 //执行结果处理,result 为HelloWorldCommand返回的结果
                 //用户对结果做二次处理.
+                System.out.println("命令执行完成返回结果，用户进行二次加工"+result);
+
             }
         });
         //注册完整执行生命周期事件

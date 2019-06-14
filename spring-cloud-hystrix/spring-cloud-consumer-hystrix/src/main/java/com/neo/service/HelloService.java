@@ -29,4 +29,12 @@ public class HelloService {
     public String helloFallBack(){
       return "error";
     }
+
+
+    @HystrixCommand(fallbackMethod = "",commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "2000")
+    })
+    public String helloService2() throws ExecutionException, InterruptedException {
+        return restTemplate.getForEntity("http://localhost:9000/hello",String.class).getBody();
+    }
 }
