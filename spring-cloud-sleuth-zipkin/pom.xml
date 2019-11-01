@@ -12,7 +12,8 @@
 		<module>spring-cloud-eureka</module>
 		<module>spring-cloud-producer</module>
 		<module>spring-cloud-zuul</module>
-	</modules>
+        <module>spring-cloud-user</module>
+    </modules>
 
 	<packaging>pom</packaging>
 	<name>Spring cloud sleuth zipkin</name>

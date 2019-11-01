@@ -7,7 +7,15 @@ spring:
     base-url: http://localhost:9000
   sleuth:
     sampler:
-      percentage: 1.0
+      percentage: 0.2
+      uriSample:
+        - uriRegex: "/test/"
+          uriPercentage: 0.9
+        - uriRegex: "/user/"
+          uriPercentage: 0.5
+
+
+
 eureka:
   client:
     serviceUrl:
