@@ -28,10 +28,18 @@ public class ProducerApplication {
 	RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
+	/**
+	* @Author rcb
+	* @Description 自定义采样参数初始化
+	**/
 	@Bean
 	SamplerLocalProperties samplerLocalProperties() {
 		return new SamplerLocalProperties();
 	}
+	/**
+	* @Author rcb
+	* @Description 自定义采样规则初始化
+	**/
 	@Bean
 	Sampler percentageLocalSampler(SamplerLocalProperties samplerLocalProperties){
 		//如果这个地方设置全局采样率，yml文件中的配置将不会生效
